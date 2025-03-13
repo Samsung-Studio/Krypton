@@ -1,0 +1,33 @@
+# Ignore Compiled Binary Files
+
+*.dll
+*.so
+*.dylib
+dist/
+
+# Temporary Files
+
+temp/
+
+#   IDE and Editor files
+
+.vscode/
+.idea/
+*.sdf
+*.suo
+*.ncb
+*.vcxproj*
+*.xcodeproj
+*.DS_Store
+
+# Ignore Logs and temp files
+
+*.log
+*.tmp
+*.swp
+*.bak
+*.cache
+
+# Ignore dependency files
+*.d
+*.dep
