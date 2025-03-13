@@ -17,7 +17,7 @@ git clone https://github.com/Samsung-Studio/Krypton.git
 cd Krypton
 
 # Build the project (C++ Example)
-mkdir build && cd build
+cd build
 cmake ..
 make
 ```
