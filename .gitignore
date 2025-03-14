@@ -8,6 +8,8 @@ dist/
 # Temporary Files
 
 temp/
+test/test.cpp
+test/*.exe
 
 #   IDE and Editor files
 
