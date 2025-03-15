@@ -1,6 +1,6 @@
 # Compiler
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinc
+CXXFLAGS = -std=c++17 -Wall -Iinc -I"C:/msys64/mingw64/include"
 
 # Directories
 SRC_DIR = src
@@ -24,8 +24,9 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 # Output executable name
 TARGET = $(BIN_DIR)/krypton.exe  # .exe required on Windows
 
-# PDCurses Library
-LIBS = -lpdcurses
+# PDCurses & OpenSSL Libraries
+LIBS = -lpdcurses -lcrypto -lssl
+LDFLAGS = -L"C:/msys64/mingw64/lib"
 
 # Ensure necessary directories exist (Windows version)
 ifeq ($(OS),Windows_NT)
@@ -41,7 +42,7 @@ endif
 # Build executable
 $(TARGET): $(OBJ_FILES) $(RES_FILE)
 	$(MKDIR)
-	$(CXX) -o $(TARGET) $(OBJ_FILES) $(RES_FILE) $(LIBS) $(CXXFLAGS)
+	$(CXX) -o $(TARGET) $(OBJ_FILES) $(RES_FILE) $(LIBS) $(LDFLAGS) $(CXXFLAGS)
 
 # Compile source files into object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
