@@ -46,5 +46,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Clean build files (Windows & Linux compatible)
 clean:
-	-$(DEL) $(OBJ_DIR)\*.o
-	-$(DEL) $(BIN_DIR)\krypton.exe
+	-for /r "$(OBJ_DIR)" %%f in (*.o) do del "%%f"
+	-if exist "$(BIN_DIR)\krypton.exe" del /q "$(BIN_DIR)\krypton.exe"
