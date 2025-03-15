@@ -12,6 +12,7 @@
 #include "../inc/command/ui.h"
 #include "../inc/core/vcs.h"
 #include "../inc/utils/logger.h"
+#include "../inc/command/parse.h"
 
 using namespace std;
 
@@ -24,7 +25,9 @@ int main(int argc, char* argv[])
 
     string command = argv[1];
 
-    if (command == "init")
+    string parsed_command = parse(command);
+
+    if (parsed_command == "init")
     {
         init_repo();
     }

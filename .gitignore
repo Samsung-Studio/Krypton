@@ -11,6 +11,7 @@ dist/
 temp/
 test/test.cpp
 test/*.exe
+test/.krypton/
 
 #   IDE and Editor files
 
