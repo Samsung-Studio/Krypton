@@ -1,6 +1,6 @@
 # Ignore Compiled Binary Files
 
-*.exe
+a.exe
 *.dll
 *.so
 *.dylib
