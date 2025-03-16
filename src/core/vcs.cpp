@@ -41,5 +41,4 @@ void init_repo()
     create_file(".krypton/index", "");
 
     log_info("Initialized Empty Krypton Repository !");
-    cout << "\nInitialized Empty Repository !" << endl;
 }
