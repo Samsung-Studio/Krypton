@@ -12,6 +12,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
 
 #include "../inc/utils/file.h"
 #include "../inc/core/vcs.h"
@@ -46,21 +47,39 @@ void init_repo()
     log_info("Initialized Empty Krypton Repository !");
 }
 
-void add_file(const string& path)
+void add_file(const string& filepath)
 {
-    if (!filesystem::exists(path))
+    if (!exists(".krypton"))
     {
-        log_error("File Does Not Exist !");
+        log_error("Not a Krypton repository (or any parent up to mount point /)");
         return;
     }
 
-    // Read File Content
-    ifstream file(path);
-    string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-    
-    string hash = sha1_hash(content);   // Generate SHA1 Hash
-    storeBlob(hash, content);           // Store Blob
-    updateIndex(path, hash);            // Update Index
+    if (!exists(filepath))
+    {
+        log_error("pathspec '" + filepath + "' did not match any files");
+        return;
+    }
 
-    log_info("File Added To Stage Area !");
+    // Get file hash
+    string hash = sha1_hash(filepath);
+    if (hash.empty())
+    {
+        return; // Error already logged by sha1_hash
+    }
+
+    // Create object directory structure (using first 2 chars as directory)
+    string dir_path = ".krypton/objects/" + hash.substr(0, 2);
+    string object_path = dir_path + "/" + hash.substr(2);
+    
+    // Create directory if it doesn't exist
+    create_dir(dir_path);
+
+    // Copy file to objects
+    filesystem::copy_file(filepath, object_path, filesystem::copy_options::overwrite_existing);
+
+    // Update the index
+    updateIndex(filepath, hash);
+
+    log_info("Added File --> " + filepath);
 }
