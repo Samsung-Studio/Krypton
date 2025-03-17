@@ -1,13 +1,13 @@
 /*----------------------------------------------------------------------*
- *                            INDEX HEADER                              *
+ *                             ADD HEADER                               *
  *----------------------------------------------------------------------*/
 
-#ifndef INDEX_H
-#define INDEX_H
+#ifndef ADD_H
+#define ADD_H
 
 #include <string>
 using namespace std;
 
-void updateIndex(const string& filename, const string& hash);
+void add_file(const string& path);
 
 #endif
