@@ -16,7 +16,8 @@
 using namespace std;
 
 // Window dimensions and positions
-struct UILayout {
+struct UILayout
+{
     int screen_height;
     int screen_width;
     int sidebar_width;
@@ -24,7 +25,8 @@ struct UILayout {
     int header_height;
 };
 
-void draw_header(WINDOW* win, int width) {
+void draw_header(WINDOW* win, int width)
+{
     wattron(win, COLOR_PAIR(1) | A_BOLD);
     mvwprintw(win, 1, width/2 - 13, "Krypton Version Control");
     mvwprintw(win, 2, width/2 - 8, "Version 1.0");
@@ -32,7 +34,8 @@ void draw_header(WINDOW* win, int width) {
     wrefresh(win);
 }
 
-void draw_sidebar(WINDOW* win) {
+void draw_sidebar(WINDOW* win)
+{
     box(win, 0, 0);
     wattron(win, COLOR_PAIR(2) | A_BOLD);
     mvwprintw(win, 1, 2, "NAVIGATION");
@@ -51,7 +54,8 @@ void draw_sidebar(WINDOW* win) {
     wrefresh(win);
 }
 
-void draw_content(WINDOW* win) {
+void draw_content(WINDOW* win)
+{
     box(win, 0, 0);
     wattron(win, COLOR_PAIR(3) | A_BOLD);
     mvwprintw(win, 1, 2, "WORKSPACE");
@@ -74,6 +78,7 @@ void krypton_ui()
     noecho();
     keypad(stdscr, TRUE);
     curs_set(0);  // Hide cursor
+    refresh();
 
     // Set up colors
     init_pair(1, COLOR_GREEN, COLOR_BLACK);   // Header
@@ -103,7 +108,8 @@ void krypton_ui()
     int ch;
     while ((ch = getch()) != 'q' && ch != 'Q')
     {
-        switch(ch) {
+        switch(ch)
+        {
             case '1':
                 // Handle Status
                 wclear(content);
