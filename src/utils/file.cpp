@@ -32,3 +32,16 @@ void create_dir(const string& path)
         filesystem::create_directory(path);
     }
 }
+
+void storeBlob(const string& hash, const string& content)
+{
+    // Store Hash in .krypton/objects/ as blob
+
+    string dir = ".krypton/objects/" + hash.substr(0, 2);
+    string filePath = dir + "/" + hash.substr(2);
+
+    filesystem::create_directories(dir);
+    ofstream outFile(filePath, ios::binary);
+    outFile << content;
+    outFile.close();
+}

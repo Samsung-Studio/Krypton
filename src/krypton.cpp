@@ -15,6 +15,7 @@
 #include "../inc/utils/logger.h"
 #include "../inc/command/parse.h"
 #include "../inc/core/hash.h"
+#include "../inc/core/add.h"
 
 using namespace std;
 
@@ -44,5 +45,15 @@ int main(int argc, char* argv[])
         
         string hash = sha1_hash(argv[2]);
         log_info("Hash --> " + hash);
+    }
+    else if (parsed_command == "add")
+    {
+        if (argc < 3)
+        {
+            log_error("Usage --> krypton add <file>");
+            return 1;
+        }
+
+        add_file(argv[2]);
     }
 }
