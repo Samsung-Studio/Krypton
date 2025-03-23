@@ -5,6 +5,7 @@ a.exe
 *.so
 *.dylib
 dist/
+build/bin/*.exe
 
 # Temporary Files
 
