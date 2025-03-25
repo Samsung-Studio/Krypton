@@ -36,7 +36,7 @@ void updateIndex(const string& filepath, const string& hash)
             }
             else
             {
-                index_content << hash << ' ' << filepath << '\n';
+                index_content << "100644" << ' ' << hash << ' ' << filepath << '\n';
                 file_already_staged = true;
             }
         }
@@ -46,7 +46,7 @@ void updateIndex(const string& filepath, const string& hash)
     // Add new entry if file wasn't already in index
     if (!file_already_staged)
     {
-        index_content << hash << ' ' << filepath << '\n';
+        index_content << "100644" << ' ' << hash << ' ' << filepath << '\n';
     }
 
     // Write back to index

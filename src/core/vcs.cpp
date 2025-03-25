@@ -29,7 +29,7 @@ void init_repo()
 {
     if (filesystem::exists(".krypton"))
     {
-        cout << "\nRepository Already Initialized !" << endl;
+        log_info("Repository Already Initialized !");
         return;
     }
     
@@ -51,13 +51,13 @@ void add_file(const string& filepath)
 {
     if (!exists(".krypton"))
     {
-        log_error("Not a Krypton repository (or any parent up to mount point /)");
+        log_error("Not A Krypton Repository (Or Any Parent Up To Mount Point /)");
         return;
     }
 
     if (!exists(filepath))
     {
-        log_error("pathspec '" + filepath + "' did not match any files");
+        log_error("Pathspec '" + filepath + "' Did Not Match Any Files !");
         return;
     }
 
@@ -72,14 +72,29 @@ void add_file(const string& filepath)
     string dir_path = ".krypton/objects/" + hash.substr(0, 2);
     string object_path = dir_path + "/" + hash.substr(2);
     
+    // Check if blob already exists
+    if (exists(object_path))
+    {
+        log_error("File '" + filepath + "' Is Already Stored In The Repository !");
+        return;
+    }
+
     // Create directory if it doesn't exist
     create_dir(dir_path);
 
-    // Copy file to objects
-    filesystem::copy_file(filepath, object_path, filesystem::copy_options::overwrite_existing);
-
-    // Update the index
-    updateIndex(filepath, hash);
-
-    log_info("Added File --> " + filepath);
+    try
+    {
+        // Copy file to objects
+        filesystem::copy_file(filepath, object_path, filesystem::copy_options::overwrite_existing);
+        
+        // Update the index
+        updateIndex(filepath, hash);
+        
+        log_info("Added File --> " + filepath + " To Stage Area !");
+    }
+    catch (const filesystem::filesystem_error& e)
+    {
+        log_error("Failed To Stage File !");
+        return;
+    }
 }
