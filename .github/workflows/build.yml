@@ -1,0 +1,31 @@
+name: Krypton Build (Windows)
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use Windows runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set Up MinGW
+        run: |
+          echo "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Build Krypton
+        run: |
+          mingw32-make clean
+          mingw32-make
+
+      - name: Verify Build
+        run: |
+          if (Test-Path "build/bin/krypton.exe") {
+            echo "✅ Build Successful !"
+          } else {
+            echo "❌ Build Failed !"; exit 1
+          }
