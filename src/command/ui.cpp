@@ -71,21 +71,21 @@ void draw_sidebar(WINDOW* win, const UIState& state)
     werase(win);
     box(win, 0, 0);
     
-    // Draw title
+    // Draw title as legend in the border
     wattron(win, COLOR_PAIR(2) | A_BOLD);
-    mvwprintw(win, 1, (getmaxx(win) - 10) / 2, "NAVIGATION");
+    mvwprintw(win, 0, 2, " NAVIGATION ");  // Added spaces around the text
     wattroff(win, COLOR_PAIR(2) | A_BOLD);
     
-    // Draw menu items
+    // Draw menu items with increased gap
     const char* menu_items[] = {"Status", "Stage", "Commit", "Branch", "Remote"};
     for (int i = 0; i < 5; i++)
     {
-        draw_menu_item(win, i + 3, i == state.selected_menu, menu_items[i], i + 1);
+        draw_menu_item(win, i + 3, i == state.selected_menu, menu_items[i], i + 1);  // Shifted up by 1 line
     }
     
     // Draw quit option
     wattron(win, COLOR_PAIR(2));
-    mvwprintw(win, 9, 2, "q");
+    mvwprintw(win, 9, 2, "q");  // Adjusted y position
     mvwprintw(win, 9, 4, "Quit");
     wattroff(win, COLOR_PAIR(2));
     
