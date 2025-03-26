@@ -27,14 +27,15 @@ struct UILayout
 };
 
 // UI state
-struct UIState {
+struct UIState
+{
     int selected_menu;
     bool menu_active;
 };
 
 void draw_header(WINDOW* win, int width)
 {
-    box(win, 0, 0);
+    // Remove box(win, 0, 0) to eliminate the border
     wattron(win, COLOR_PAIR(1) | A_BOLD);
     mvwprintw(win, 1, (width - 20) / 2, "Krypton Version Control");
     mvwprintw(win, 2, (width - 10) / 2, "Version 1.0");
@@ -42,17 +43,21 @@ void draw_header(WINDOW* win, int width)
     wrefresh(win);
 }
 
-void draw_menu_item(WINDOW* win, int y, int selected, const char* text, int number) {
+void draw_menu_item(WINDOW* win, int y, int selected, const char* text, int number)
+{
     int width = getmaxx(win) - 2; // Account for borders
     
-    if (selected) {
-        wattron(win, COLOR_PAIR(4) | A_BOLD);
+    if (selected)
+    {
+        wattron(win, COLOR_PAIR(4) | A_BOLD);  // Removed A_REVERSE
         // Fill entire line with highlight
         mvwhline(win, y, 1, ' ', width);
         mvwprintw(win, y, 2, "%d", number);
         mvwprintw(win, y, 4, "%s", text);
-        wattroff(win, COLOR_PAIR(4) | A_BOLD);
-    } else {
+        wattroff(win, COLOR_PAIR(4) | A_BOLD);  // Removed A_REVERSE
+    }
+    else
+    {
         wattron(win, COLOR_PAIR(2));
         mvwprintw(win, y, 2, "%d", number);
         mvwprintw(win, y, 4, "%s", text);
@@ -73,7 +78,8 @@ void draw_sidebar(WINDOW* win, const UIState& state)
     
     // Draw menu items
     const char* menu_items[] = {"Status", "Stage", "Commit", "Branch", "Remote"};
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         draw_menu_item(win, i + 3, i == state.selected_menu, menu_items[i], i + 1);
     }
     
@@ -101,7 +107,8 @@ void draw_content(WINDOW* win, const UIState& state)
     werase(win);
     box(win, 0, 0);
     
-    const char* titles[] = {
+    const char* titles[] =
+    {
         "REPOSITORY STATUS",
         "STAGING AREA",
         "COMMIT CHANGES",
@@ -117,22 +124,23 @@ void draw_content(WINDOW* win, const UIState& state)
     wattroff(win, COLOR_PAIR(3));
     
     wattron(win, COLOR_PAIR(3));
-    switch(state.selected_menu) {
+    switch(state.selected_menu)
+    {
         case 0:
-            mvwprintw(win, 4, 2, "Current Branch: main");
-            mvwprintw(win, 5, 2, "Status: Ready");
+            mvwprintw(win, 4, 2, "Current Branch : main");
+            mvwprintw(win, 5, 2, "Status : Ready");
             break;
         case 1:
-            mvwprintw(win, 4, 2, "No files staged for commit");
+            mvwprintw(win, 4, 2, "No files staged for commit !");
             break;
         case 2:
-            mvwprintw(win, 4, 2, "No changes to commit");
+            mvwprintw(win, 4, 2, "No changes to commit !");
             mvwprintw(win, 5, 2, "Use number keys (1-5) to navigate");
             mvwprintw(win, 6, 2, "Press Enter to select an option");
             break;
         case 3:
-            mvwprintw(win, 4, 2, "Current Branch: main");
-            mvwprintw(win, 5, 2, "No other branches available");
+            mvwprintw(win, 4, 2, "Current Branch : main");
+            mvwprintw(win, 5, 2, "No other branches available !");
             break;
         case 4:
             mvwprintw(win, 4, 2, "No remote repositories configured");
@@ -157,7 +165,7 @@ void krypton_ui()
 
     // Set up colors
     init_pair(1, COLOR_GREEN, COLOR_BLACK);   // Header
-    init_pair(2, COLOR_CYAN, COLOR_BLACK);    // Sidebar
+    init_pair(2, COLOR_WHITE, COLOR_BLACK);   // Sidebar
     init_pair(3, COLOR_WHITE, COLOR_BLACK);   // Content
     init_pair(4, COLOR_BLACK, COLOR_WHITE);   // Selected menu item
 
@@ -189,18 +197,21 @@ void krypton_ui()
     int ch;
     while ((ch = getch()) != 'q' && ch != 'Q')
     {
-        if (state.menu_active) {
+        if (state.menu_active)
+        {
             switch(ch)
             {
                 case KEY_UP:
-                    if (state.selected_menu > 0) {
+                    if (state.selected_menu > 0)
+                    {
                         state.selected_menu--;
                         draw_sidebar(sidebar, state);
                         draw_content(content, state);
                     }
                     break;
                 case KEY_DOWN:
-                    if (state.selected_menu < 4) {
+                    if (state.selected_menu < 4)
+                    {
                         state.selected_menu++;
                         draw_sidebar(sidebar, state);
                         draw_content(content, state);
@@ -223,7 +234,9 @@ void krypton_ui()
                     draw_content(content, state);
                     break;
             }
-        } else {
+        }
+        else
+        {
             switch(ch)
             {
                 case KEY_LEFT:

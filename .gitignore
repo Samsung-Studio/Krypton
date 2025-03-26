@@ -6,6 +6,7 @@ a.exe
 *.dylib
 dist/
 build/bin/*.exe
+build/bin/*.zip
 
 # Temporary Files
 
