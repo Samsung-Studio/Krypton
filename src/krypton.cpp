@@ -16,6 +16,7 @@
 #include "../inc/command/parse.h"
 #include "../inc/core/hash.h"
 #include "../inc/core/add.h"
+#include "../inc/core/commit.h" // Include commit header
 
 using namespace std;
 
@@ -37,6 +38,7 @@ int main(int argc, char* argv[])
         CMD_INIT,
         CMD_HASH,
         CMD_ADD,
+        CMD_COMMIT, // Add commit command
         CMD_UNKNOWN
     };
 
@@ -46,6 +48,7 @@ int main(int argc, char* argv[])
     if (parsed_command == "init") cmd = CMD_INIT;
     else if (parsed_command == "hash") cmd = CMD_HASH;
     else if (parsed_command == "add") cmd = CMD_ADD;
+    else if (parsed_command == "commit") cmd = CMD_COMMIT; // Parse commit command
     else cmd = CMD_UNKNOWN;
 
     // Switch on command type
@@ -75,6 +78,18 @@ int main(int argc, char* argv[])
                 return 1;
             }
             add_file(argv[2]);
+            break;
+
+        case CMD_COMMIT: // Handle commit command
+            if (argc < 3)
+            {
+                log_error("Usage --> krypton commit \"<message>\"");
+                return 1;
+            }
+            {
+                string message = argv[2];
+                createCommit(message); // Call createCommit function
+            }
             break;
 
         default:
